@@ -13,7 +13,7 @@ const WishList = () => {
       const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
       fetchWishlistedBooks(savedWishlist);
     };
-    
+
     loadWishlist();
   }, []);
 
@@ -21,7 +21,7 @@ const WishList = () => {
     try {
       const fetchedBooks = await Promise.all(
         bookIds.map(async (bookId) => {
-          const response = await fetch(`https://gutendex.com/books?ids=${bookId}`);
+          const response = await fetch(`https://gutendex.com/books/${bookId}`);
           const data = await response.json();
           return data.results[0]; 
         })
@@ -47,7 +47,9 @@ const WishList = () => {
         // Remove the book from the wishlist in localStorage
         const updatedWishlist = wishlistedBooks.filter((book) => book.id !== bookId);
         setWishlistedBooks(updatedWishlist);
-        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        const newWishlist = savedWishlist.filter((id) => id !== bookId);
+        localStorage.setItem("wishlist", JSON.stringify(newWishlist));
 
         Swal.fire("Removed!", "The book has been removed from your wishlist.", "success");
       }
@@ -106,11 +108,7 @@ const WishList = () => {
                   className="mt-3 py-2 px-4 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-colors duration-300"
                   onClick={() => handleRemoveFromWishlist(book.id)}
                 >
-                  {isBookWishlisted(book.id) ? (
-                    <AiFillHeart className="w-12 h-12 text-red-500" />
-                  ) : (
-                    <AiOutlineHeart className="w-12 h-12 text-gray-400" />
-                  )}
+                  <AiFillHeart className="w-12 h-12 text-red-500" />
                 </button>
               </div>
             </div>

@@ -2,6 +2,9 @@
 
 This project is a book listing application built with **React** and **Tailwind CSS**. It fetches data from the **Gutenberg Books API** (`https://gutendex.com/books`) and displays the books in a clean and user-friendly format. The app includes various functionalities like real-time search, filtering by genre, a wishlist feature, and pagination.
 
+## Live Demo
+You can view the live version of the app here: [Live Link](https://bookish-guys.netlify.app)
+
 ## Features
 
 ### 1. Book Listing
@@ -72,8 +75,6 @@ This project is a book listing application built with **React** and **Tailwind C
 - **JavaScript (ES6)** for implementing functionalities.
 - **LocalStorage** for saving user preferences and wishlist data.
 
-## Live Demo
-You can view the live version of the app here: [Live Link](https://your-live-app-link.com)
 
 ## API Documentation
 For more information on the API used in this project, please visit the [Gutenberg Books API Documentation](https://gutendex.com/).
