@@ -100,21 +100,23 @@ const Books = () => {
         </p>
       </div>
       {/* Search Bar */}
-      <div className="flex justify-between items-center mb-4 relative">
+      <div className="flex flex-col sm:flex-row gap-12 justify-between items-center mb-4 relative">
         {/* Search bar */}
         <input
           type="text"
           placeholder="Search books by title..."
           value={searchTerm}
           onChange={handleSearch} // Update search term on input change
-          className="w-full md:w-1/2 px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
         {/* Genre Filter */}
         <select
           value={genre}
           onChange={handleGenreChange}
-          className="ml-4 px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="ml-4 w-full py-2 bg-gray-800
+           text-white border border-gray-700
+            rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
           <option value="">All Genres</option>
           {books

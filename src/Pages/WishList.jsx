@@ -45,14 +45,21 @@ const WishList = () => {
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.isConfirmed) {
-        const updatedWishlist = wishlistedBooks.filter((book) => book.id !== bookId);
+        const updatedWishlist = wishlistedBooks.filter(
+          (book) => book.id !== bookId
+        );
         setWishlistedBooks(updatedWishlist);
 
-        const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        const savedWishlist =
+          JSON.parse(localStorage.getItem("wishlist")) || [];
         const newWishlist = savedWishlist.filter((id) => id !== bookId);
         localStorage.setItem("wishlist", JSON.stringify(newWishlist));
 
-        Swal.fire("Removed!", "The book has been removed from your wishlist.", "success");
+        Swal.fire(
+          "Removed!",
+          "The book has been removed from your wishlist.",
+          "success"
+        );
       }
     });
   };
@@ -106,7 +113,7 @@ const WishList = () => {
                   More Info
                 </button>
                 <button
-                  className="mt-3 py-2 px-4 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-colors duration-300"
+                  className="mt-3 py-2 px-4 text-white rounded-lg transition-colors duration-300"
                   onClick={() => handleRemoveFromWishlist(book.id)}
                 >
                   <AiFillHeart className="w-12 h-12 text-red-500" />
@@ -117,7 +124,9 @@ const WishList = () => {
         </div>
       ) : (
         <div className="text-center">
-          <p className="text-gray-400 text-lg">You have no books in your wishlist.</p>
+          <p className="text-gray-400 text-lg">
+            You have no books in your wishlist.
+          </p>
         </div>
       )}
     </div>
