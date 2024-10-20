@@ -1,35 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const WishList = () => {
   const [wishlistedBooks, setWishlistedBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Hook to navigate to the details page
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const loadWishlist = () => {
+    const loadWishlist = async () => {
       const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-      fetchWishlistedBooks(savedWishlist);
+      await fetchAllBooks(savedWishlist);
     };
 
     loadWishlist();
   }, []);
 
-  const fetchWishlistedBooks = async (bookIds) => {
+  const fetchAllBooks = async (savedWishlist) => {
     try {
-      const fetchedBooks = await Promise.all(
-        bookIds.map(async (bookId) => {
-          const response = await fetch(`https://gutendex.com/books/${bookId}`);
-          const data = await response.json();
-          return data.results[0]; 
-        })
+      const response = await fetch(`https://gutendex.com/books`); // Fetch all books (without worrying about pagination)
+      const data = await response.json();
+
+      // Filter books that match the savedWishlist IDs
+      const filteredBooks = data.results.filter((book) =>
+        savedWishlist.includes(book.id)
       );
-      setWishlistedBooks(fetchedBooks);
+
+      setWishlistedBooks(filteredBooks);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching wishlisted books:", error);
+      console.error("Error fetching books:", error);
       setLoading(false);
     }
   };
@@ -44,9 +45,9 @@ const WishList = () => {
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Remove the book from the wishlist in localStorage
         const updatedWishlist = wishlistedBooks.filter((book) => book.id !== bookId);
         setWishlistedBooks(updatedWishlist);
+
         const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
         const newWishlist = savedWishlist.filter((id) => id !== bookId);
         localStorage.setItem("wishlist", JSON.stringify(newWishlist));
