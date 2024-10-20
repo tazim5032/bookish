@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"; // Import heart icons from react-icons
 
 const BooksList = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
+  const [wishlist, setWishlist] = useState(() => {
+    // Load wishlist from localStorage on component mount
+    const savedWishlist = localStorage.getItem("wishlist");
+    return savedWishlist ? JSON.parse(savedWishlist) : [];
+  });
+
   const navigate = useNavigate(); // Initialize the navigate hook
 
   useEffect(() => {
@@ -22,10 +29,25 @@ const BooksList = () => {
     }
   };
 
-  // Function to handle the "More Info" button click
   const handleMoreInfoClick = (bookId) => {
     navigate(`/books/${bookId}`);
   };
+
+  // Toggle wishlist for a book
+  const toggleWishlist = (bookId) => {
+    let updatedWishlist;
+    if (wishlist.includes(bookId)) {
+      // Remove book from wishlist
+      updatedWishlist = wishlist.filter((id) => id !== bookId);
+    } else {
+      // Add book to wishlist
+      updatedWishlist = [...wishlist, bookId];
+    }
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist)); // Save to localStorage
+  };
+
+  const isBookWishlisted = (bookId) => wishlist.includes(bookId); // Check if a book is wishlisted
 
   // Only show the first 6 books
   const firstSixBooks = books.slice(0, 6);
@@ -52,13 +74,16 @@ const BooksList = () => {
             {firstSixBooks.map((book) => (
               <div
                 key={book.id}
-                className="bg-gray-800 text-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow duration-300"
+                className="bg-gray-800 text-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow duration-300 relative"
               >
+                {/* Book Image */}
                 <img
                   src={book.formats["image/jpeg"]}
                   alt={book.title}
                   className="w-full h-64 object-cover mb-4 rounded-lg"
                 />
+
+                {/* Book Info */}
                 <h3 className="text-xl font-semibold mb-2">{book.title}</h3>
                 <p className="text-sm text-gray-400 mb-1">
                   Author: {book.authors[0]?.name || "Unknown"}
@@ -67,11 +92,25 @@ const BooksList = () => {
                 <p className="text-sm text-gray-400 mb-1">
                   Genre: {book.subjects[0] || "N/A"}
                 </p>
+
+                {/* Wishlist Icon */}
                 <button
-                  className="mt-3 py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors duration-300"
-                  onClick={() => handleMoreInfoClick(book.id)} // Handle "More Info" click
+                  onClick={() => toggleWishlist(book.id)}
+                  className="absolute top-4 right-4 focus:outline-none"
                 >
-                  See Details
+                  {isBookWishlisted(book.id) ? (
+                    <AiFillHeart className="w-12 h-12 text-red-500" />
+                  ) : (
+                    <AiOutlineHeart className="w-12 h-12 text-gray-400" />
+                  )}
+                </button>
+
+                {/* More Info Button */}
+                <button
+                  onClick={() => handleMoreInfoClick(book.id)}
+                  className="mt-3 py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors duration-300"
+                >
+                  More Info
                 </button>
               </div>
             ))}

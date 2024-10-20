@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,20 +14,28 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex justify-between items-center py-4">
         {/* Logo */}
         <div className="text-3xl font-bold cursor-pointer">
-          Bookish
+          <Link to="/">Bookish</Link>
         </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 items-center">
-          <Link to="/" className="hover:text-gray-300">Home</Link>
-          <Link to="/books" className="hover:text-gray-300">Books</Link>
-          <Link to="/wishList" className="hover:text-gray-300">WishList</Link>
-          
+          <Link to="/" className="hover:text-gray-300">
+            Home
+          </Link>
+          <Link to="/books" className="hover:text-gray-300">
+            Books
+          </Link>
+          <Link to="/wishList" className="hover:text-gray-300">
+            WishList
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-white focus:outline-none">
+          <button
+            onClick={toggleMenu}
+            className="text-white focus:outline-none"
+          >
             {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
         </div>
@@ -36,9 +44,15 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-blue-700 text-center py-4 space-y-4">
-          <Link to="/" className="block text-lg hover:text-gray-300">Home</Link>
-          <Link to="/books" className="block text-lg hover:text-gray-300">Books</Link>
-          <Link to="/wishList" className="block text-lg hover:text-gray-300">WishList</Link>
+          <Link to="/" className="block text-lg hover:text-gray-300">
+            Home
+          </Link>
+          <Link to="/books" className="block text-lg hover:text-gray-300">
+            Books
+          </Link>
+          <Link to="/wishList" className="block text-lg hover:text-gray-300">
+            WishList
+          </Link>
           {/* <div className="px-4">
             <div className="relative">
               <input

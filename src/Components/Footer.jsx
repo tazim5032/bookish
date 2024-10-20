@@ -53,7 +53,7 @@ const Footer = () => {
             <div className="mt-4">
               <h4 className="text-lg font-semibold">Contact Us</h4>
               <p className="text-gray-400">Email: info@bookish.com</p>
-              <p className="text-gray-400">Phone: +123 456 7890</p>
+              <p className="text-gray-400">Phone: +880 1611869445</p>
             </div>
           </div>
         </div>
