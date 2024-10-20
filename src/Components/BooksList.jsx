@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Assuming you're using react-router for navigation
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 
 const BooksList = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
+  const navigate = useNavigate(); // Initialize the navigate hook
 
   useEffect(() => {
     fetchBooks();
@@ -20,7 +21,9 @@ const BooksList = () => {
       setLoading(false); // Stop loading even if there's an error
     }
   };
-  const handleBookClick = (bookId) => {
+
+  // Function to handle the "More Info" button click
+  const handleMoreInfoClick = (bookId) => {
     navigate(`/books/${bookId}`);
   };
 
@@ -34,8 +37,7 @@ const BooksList = () => {
           Discover Your Next Favorite Book
         </h1>
         <p className="text-gray-400 text-lg mt-2">
-          Browse through a curated selection of timeless classics and hidden
-          gems.
+          Browse through a curated selection of timeless classics and hidden gems.
         </p>
       </div>
 
@@ -49,7 +51,6 @@ const BooksList = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-12 p-4">
             {firstSixBooks.map((book) => (
               <div
-              onClick={() => handleBookClick(book.id)}
                 key={book.id}
                 className="bg-gray-800 text-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow duration-300"
               >
@@ -66,8 +67,11 @@ const BooksList = () => {
                 <p className="text-sm text-gray-400 mb-1">
                   Genre: {book.subjects[0] || "N/A"}
                 </p>
-                <button className="mt-3 py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors duration-300">
-                  More Info
+                <button
+                  className="mt-3 py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors duration-300"
+                  onClick={() => handleMoreInfoClick(book.id)} // Handle "More Info" click
+                >
+                  See Details
                 </button>
               </div>
             ))}
